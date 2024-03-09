@@ -4,10 +4,10 @@
 
 Insert a record into the 'film' table using dummy values, ensuring referential integrity with other tables.
 
-''' 
+```  
 INSERT INTO film ( title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features, last_update)
 VALUES ('LA VITA È BELLA', 'A Epic Drama About the Survival of a Child in a Nazi Concentration Camp',1997, 2, 3, 4.99, 116, 14.99, 'PG-13', 'Trailers', NOW());
-'''
+``` 
 
 ## Excercise 2.
 Which films are longer than the average duration of films?
