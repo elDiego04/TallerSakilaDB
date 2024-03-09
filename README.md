@@ -8,20 +8,33 @@ Insert a record into the 'film' table using dummy values, ensuring referential i
 INSERT INTO film ( title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features, last_update)
 VALUES ('LA VITA È BELLA', 'A Epic Drama About the Survival of a Child in a Nazi Concentration Camp',1997, 2, 3, 4.99, 116, 14.99, 'PG-13', 'Trailers', NOW());
 ```
-![image](https://github.com/elDiego04/TallerSakilaDB/assets/117874546/3fdbc1cf-d728-4532-8c1a-50b7c052d72a)
+![image](https://github.com/elDiego04/TallerSakilaDB/assets/117874546/4fbcbe2e-5af9-4a88-ae46-8a5de176ab79)
 
 
 ## Excercise 2
 
 Which films are longer than the average duration of films?
 ```
-``` 
+SELECT title, length
+FROM film
+WHERE length > (SELECT AVG(length) FROM film);
+```
+![image](https://github.com/elDiego04/TallerSakilaDB/assets/117874546/54e021c0-83ca-410b-89ca-6ad97ec62066)
+
 
 ## Excercise 3
 
 Which films are currently rented at the store with store_id = 1?
 ```
+SELECT f.title, i.store_id, r.return_date
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE i.store_id = 1
+AND r.return_date IS NULL; 
 ```
+![image](https://github.com/elDiego04/TallerSakilaDB/assets/117874546/fe3c9076-806e-4a93-b18a-06e2fe9699a4)
+
 
 ## Excercise 4
 
@@ -33,13 +46,26 @@ Of the movies at the store with store_id = 1, which ones were rented for a longe
 
 Which actors are part of the cast of 5 or fewer movies?
 ```
+SELECT actor_id, first_name, last_name
+FROM actor
+WHERE actor_id IN (
+    SELECT actor_id
+    FROM film_actor
+    GROUP BY actor_id
+    HAVING COUNT(film_id) <= 5
+);
 ```
+![image](https://github.com/elDiego04/TallerSakilaDB/assets/117874546/4b42b2bd-a699-4497-ab5c-ddcd86062fb6)
 
 ## Excercise 6
 
 Which last names do not repeat among different actors?
 ```
+SELECT DISTINCT last_name
+FROM actor;
 ```
+![image](https://github.com/elDiego04/TallerSakilaDB/assets/117874546/027ed665-731f-4900-a206-8992f202cbf9)
+
 
 ## Excercise 7
 
