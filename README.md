@@ -40,7 +40,24 @@ AND r.return_date IS NULL;
 
 Of the movies at the store with store_id = 1, which ones were rented for a longer duration than the average rental period?
 ```
+SELECT f.title, i.store_id
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE i.store_id = 1
+GROUP BY f.title
+HAVING DATEDIFF(MAX(r.return_date), MIN(r.rental_date)) > (
+    SELECT AVG(DATEDIFF(return_date, rental_date))
+    FROM rental
+    WHERE inventory_id IN (
+        SELECT inventory_id
+        FROM inventory
+        WHERE store_id = 1
+    )
+);
 ```
+![image](https://github.com/elDiego04/TallerSakilaDB/assets/117874546/2644cfb8-3e5c-45a8-b7f4-05b337dbb95c)
+
  
 ## Excercise 5
 
